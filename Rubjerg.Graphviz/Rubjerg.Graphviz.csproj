@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netcoreapp3.1-windows;net48</TargetFrameworks>
+	  <TargetFrameworks>netcoreapp3.1-windows;net48</TargetFrameworks>
     <Platforms>x64</Platforms>
     <PlatformTarget>x64</PlatformTarget>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NoWarn>1701;1702;NU5100</NoWarn>
-    <Version>1.0.10-beta01</Version>
+    <Version>1.0.10-beta03</Version>
     <Authors>Chiel ten Brinke</Authors>
     <Company>Rubjerg</Company>
     <Description>Lean wrapper around Graphviz for building graphs, reading/writing dot files, exporting images, or reading out layout parameters.</Description>
@@ -19,6 +19,10 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
 	<PackageId>SE.Rubjerg.Graphviz</PackageId>
   </PropertyGroup>
+
+	<PropertyGroup>
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);CustomContentTarget</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GraphvizWrapper\GraphvizWrapper.vcxproj">
@@ -37,5 +41,28 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
+
+    <Target Name="CustomContentTarget">
+	    <ItemGroup>
+		    <TfmSpecificPackageFile Include="*.dll;*.lib;*.pdb;*.exp;config6">
+			    <PackagePath>contentFiles/any/netcoreapp3.1</PackagePath>
+				<PackageCopyToOutput>true</PackageCopyToOutput>
+				<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			    <Pack>true</Pack>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="*.dll;*.lib;*.pdb;*.exp;config6">
+				<PackagePath>contentFiles/any/net48</PackagePath>
+				<PackageCopyToOutput>true</PackageCopyToOutput>
+				<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+				<Pack>true</Pack>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="*.dll;*.lib;*.pdb;*.exp;config6">
+				<PackagePath>content</PackagePath>
+				<PackageCopyToOutput>true</PackageCopyToOutput>
+				<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+				<Pack>true</Pack>
+			</TfmSpecificPackageFile>
+	    </ItemGroup>
+    </Target>
 
 </Project>
