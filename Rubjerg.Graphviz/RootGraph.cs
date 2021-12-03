@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using static Rubjerg.Graphviz.ForeignFunctionInterface;
@@ -17,15 +17,17 @@ namespace Rubjerg.Graphviz
     /// Wraps a cgraph root graph.
     /// NB: If there is no .net wrapper left that points to any part of a root graph, the root graph is destroyed.
     /// </summary>
-    public class RootGraph : Graph
+    public class RootGraph : Graph, IDisposable
     {
         private long added_pressure = 0;
+        private bool disposed = false;
         private RootGraph(IntPtr ptr) : base(ptr, null) { }
         ~RootGraph()
         {
-            if (added_pressure > 0)
-                GC.RemoveMemoryPressure(added_pressure);
-            _ = Agclose(_ptr);
+            if (!disposed)
+            {
+                Dispose();
+            }
         }
 
         /// <summary>
@@ -76,6 +78,23 @@ namespace Rubjerg.Graphviz
         public void ConvertToUndirectedGraph()
         {
             ConvertToUndirected(_ptr);
+        }
+
+        public void Dispose()
+        {
+            if (disposed) return;
+            disposed = true;
+
+            if (added_pressure > 0)
+                GC.RemoveMemoryPressure(added_pressure);
+            try
+            {
+                _ = Agclose(_ptr);
+            }
+            catch
+            {
+                // we are just going to have to ignore the exception.  Hopefully this doesnt result in memory leak
+            }
         }
     }
 }

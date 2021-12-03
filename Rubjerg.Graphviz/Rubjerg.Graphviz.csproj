@@ -1,68 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-	  <TargetFrameworks>netcoreapp3.1-windows;net48</TargetFrameworks>
-    <Platforms>x64</Platforms>
-    <PlatformTarget>x64</PlatformTarget>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <NoWarn>1701;1702;NU5100</NoWarn>
-    <Version>1.0.10-beta03</Version>
-    <Authors>Chiel ten Brinke</Authors>
-    <Company>Rubjerg</Company>
-    <Description>Lean wrapper around Graphviz for building graphs, reading/writing dot files, exporting images, or reading out layout parameters.</Description>
-    <Copyright>Copyright 2020</Copyright>
-    <PackageTags>graphviz dotnet graphdrawing</PackageTags>
-    <RepositoryUrl>https://github.com/Rubjerg/Graphviz.NetWrapper</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Rubjerg/Graphviz.NetWrapper</PackageProjectUrl>
-    <PackageLicenseExpression></PackageLicenseExpression>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-	<PackageId>SE.Rubjerg.Graphviz</PackageId>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>netcoreapp3.1-windows;net461</TargetFrameworks>
+		<Platforms>x64</Platforms>
+		<PlatformTarget>x64</PlatformTarget>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<NoWarn>1701;1702;NU5100</NoWarn>
+		<Version>1.0.10-beta05</Version>
+		<Authors>Chiel ten Brinke</Authors>
+		<Company>Rubjerg</Company>
+		<Description>Lean wrapper around Graphviz for building graphs, reading/writing dot files, exporting images, or reading out layout parameters.</Description>
+		<Copyright>Copyright 2020</Copyright>
+		<PackageTags>graphviz dotnet graphdrawing</PackageTags>
+		<RepositoryUrl>https://github.com/Rubjerg/Graphviz.NetWrapper</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Rubjerg/Graphviz.NetWrapper</PackageProjectUrl>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageId>SE.Rubjerg.Graphviz</PackageId>
+	</PropertyGroup>
 
 	<PropertyGroup>
 		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);CustomContentTarget</TargetsForTfmSpecificContentInPackage>
 	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\GraphvizWrapper\GraphvizWrapper.vcxproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\GraphvizWrapper\GraphvizWrapper.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="*.dll;*.lib;*.pdb;*.exp;config6">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Pack>true</Pack>
-      <PackageCopyToOutput>true</PackageCopyToOutput>
-    </None>
-    <None Include="..\LICENSE">
-      <Pack>true</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
-    <Target Name="CustomContentTarget">
-	    <ItemGroup>
-		    <TfmSpecificPackageFile Include="*.dll;*.lib;*.pdb;*.exp;config6">
-			    <PackagePath>contentFiles/any/netcoreapp3.1</PackagePath>
-				<PackageCopyToOutput>true</PackageCopyToOutput>
-				<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			    <Pack>true</Pack>
-			</TfmSpecificPackageFile>
+	<Target Name="CustomContentTarget">
+		<ItemGroup>
 			<TfmSpecificPackageFile Include="*.dll;*.lib;*.pdb;*.exp;config6">
-				<PackagePath>contentFiles/any/net48</PackagePath>
+				<PackagePath>contentFiles\any\any;content\any\any</PackagePath>
 				<PackageCopyToOutput>true</PackageCopyToOutput>
 				<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 				<Pack>true</Pack>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="*.dll;*.lib;*.pdb;*.exp;config6">
-				<PackagePath>content</PackagePath>
-				<PackageCopyToOutput>true</PackageCopyToOutput>
-				<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<TfmSpecificPackageFile Include="..\LICENSE">
 				<Pack>true</Pack>
+				<PackagePath></PackagePath>
 			</TfmSpecificPackageFile>
-	    </ItemGroup>
-    </Target>
+		</ItemGroup>
+	</Target>
 
 </Project>
