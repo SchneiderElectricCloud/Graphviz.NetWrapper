@@ -13,6 +13,14 @@ namespace Rubjerg.Graphviz
     {
         private static readonly object _mutex = new object();
 
+        private static void CheckPointer(IntPtr obj)
+        {
+            if (obj == IntPtr.Zero)
+            {
+                throw new InvalidOperationException("No graph available");
+            }
+        }
+
         public static IntPtr GvContext()
         {
             lock (_mutex)
@@ -252,6 +260,7 @@ namespace Rubjerg.Graphviz
         }
         public static int Agclose(IntPtr graph)
         {
+            CheckPointer(graph);
             lock (_mutex)
             {
                 return agclose(graph);
@@ -371,6 +380,7 @@ namespace Rubjerg.Graphviz
         }
         public static string Rjagget(IntPtr obj, string name)
         {
+            CheckPointer(obj);
             lock (_mutex)
             {
                 return rj_agget(obj, name);
@@ -378,11 +388,13 @@ namespace Rubjerg.Graphviz
         }
         public static string Rjagnameof(IntPtr obj)
         {
+            CheckPointer(obj);
             lock (_mutex)
             {
                 return rj_agnameof(obj);
             }
         }
+
         public static void CloneAttributeDeclarations(IntPtr graphfrom, IntPtr graphto)
         {
             lock (_mutex)
