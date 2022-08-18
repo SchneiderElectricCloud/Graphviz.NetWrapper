@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Rubjerg.Graphviz.Test.Linux": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "LD_DEBUG": "true"
+      }
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "environmentVariables": {
+        "LD_DEBUG": "true"
+      },
+      "distributionName": ""
+    }
+  }
+}
