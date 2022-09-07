@@ -89,7 +89,7 @@ namespace Rubjerg.Graphviz
                 GC.RemoveMemoryPressure(added_pressure);
             try
             {
-                _ = Agclose(_ptr);
+                //_ = Agclose(_ptr);
             }
             catch
             {

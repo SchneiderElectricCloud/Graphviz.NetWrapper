@@ -2,12 +2,12 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>netcoreapp3.1-windows;net462</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
 		<Platforms>x64</Platforms>
 		<PlatformTarget>x64</PlatformTarget>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<NoWarn>1701;1702;NU5100</NoWarn>
-		<Version>1.0.10</Version>
+		<Version>1.0.11</Version>
 		<Authors>Chiel ten Brinke</Authors>
 		<Company>Rubjerg</Company>
 		<Description>Lean wrapper around Graphviz for building graphs, reading/writing dot files, exporting images, or reading out layout parameters.</Description>
@@ -25,20 +25,66 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="GraphvizWrapper.so" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="GraphvizWrapper.so">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\GraphvizWrapperLinux\GraphvizWrapperLinux.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
 		<ProjectReference Include="..\GraphvizWrapper\GraphvizWrapper.vcxproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="libcdt.so">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="libcgraph.so">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="libgvc.so">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="libgvplugin_core.so">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="libgvplugin_dot_layout.so">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="libgvplugin_neato_layout.so">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="libpathplan.so">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="libxdot.so">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 	<Target Name="CustomContentTarget">
 		<ItemGroup>
 			<TfmSpecificPackageFile Include="c:\windows\system32\vcruntime140d.dll;c:\windows\system32\vcruntime140_1d.dll;c:\windows\system32\ucrtbased.dll;c:\windows\system32\msvcp140d.dll">
-				<PackagePath>contentFiles\any\any;content\any\any</PackagePath>
+				<PackagePath>contentFiles\any\netcoreapp3.1-windows;content\any\netcoreapp3.1-windows</PackagePath>
 				<PackageCopyToOutput>true</PackageCopyToOutput>
 				<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 				<Pack>true</Pack>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="*.dll;*.lib;*.pdb;*.exp;config6">
+			<TfmSpecificPackageFile Include="c:\windows\system32\vcruntime140d.dll;c:\windows\system32\vcruntime140_1d.dll;c:\windows\system32\ucrtbased.dll;c:\windows\system32\msvcp140d.dll">
+				<PackagePath>contentFiles\any\net462;content\any\net462</PackagePath>
+				<PackageCopyToOutput>true</PackageCopyToOutput>
+				<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+				<Pack>true</Pack>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="*.dll;*.lib;*.pdb;*.exp;*.so;config6">
 				<PackagePath>contentFiles\any\any;content\any\any</PackagePath>
 				<PackageCopyToOutput>true</PackageCopyToOutput>
 				<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -49,6 +95,10 @@
 				<PackagePath></PackagePath>
 			</TfmSpecificPackageFile>
 		</ItemGroup>
+	</Target>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+	  <Exec Command="xcopy /y /d /s /e &quot;../GraphvizWrapperLinux/lib&quot; &quot;.&quot;" />
 	</Target>
 
 </Project>
